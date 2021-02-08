@@ -5,14 +5,23 @@ package com.in28minutes.currency.exchange.beans;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * @author Sameer
  *
  */
+@Entity(name="CURRENCY_EXCHANGE")
 public class CurrencyExchange {
 
+	@Id
 	private Long id;
+	
+	@Column(name="EXCHANGE_FROM")
 	private String from;
+	@Column(name="EXCHANGE_TO")
 	private String to;
 	private BigDecimal conversionMultiple;
 	private String environment;

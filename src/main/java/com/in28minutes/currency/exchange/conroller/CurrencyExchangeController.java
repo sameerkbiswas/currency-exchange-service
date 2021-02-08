@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.in28minutes.currency.exchange.beans.CurrencyExchange;
+import com.in28minutes.currency.exchange.service.CurrencyExchangeService;
 
 /**
  * @author Sameer
@@ -24,9 +25,14 @@ public class CurrencyExchangeController {
 	
 	@Autowired private Environment environment;
 	
+	@Autowired private CurrencyExchangeService currencyExchangeService;
+	
 	@GetMapping("/from/{from}/to/{to}")
 	public CurrencyExchange currencyExthange(@PathVariable String from, @PathVariable String to) {
-		CurrencyExchange currencyExchange = new CurrencyExchange(1000L, from, to, BigDecimal.valueOf(50));
+		CurrencyExchange currencyExchange = currencyExchangeService.currencyExchange(from, to);
+		if(currencyExchange == null) {
+			throw new RuntimeException("Data not found for " + from + " to " + to);
+		}
 		currencyExchange.setEnvironment(environment.getProperty("local.server.port"));
 		return currencyExchange;
 	}
